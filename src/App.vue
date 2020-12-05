@@ -1,89 +1,82 @@
 <template>
-  <div class="container">
-    <div class="notepad-container" >
-      <header class="text-center"><h2>V-Notepad</h2></header>
-      <section class="notepad-contents" v-if="isEditorEnabled === false">
-        <b-list-group>
-          <b-list-group-item button v-for="note in notes" :key="note.title">{{note.title}}</b-list-group-item>
-        </b-list-group>
+  <div class="body">
+    <div class="notepad-container h-75 w-75">
+      <header class="header d-flex justify-content-center align-items-center">
+        <h4>Light Notepad v1</h4>
+      </header>
+      <section class="notepad-content" v-if="editorIsOpen === false">
+        <note-list
+          v-for="note in notes"
+          :key="note.id"
+          :note="note"
+        ></note-list>
+        <add-note-button @open-editor="openNewEditor"></add-note-button>
       </section>
-      <section class="notepad-editor" v-else-if="isEditorEnabled === true">
-        <h3>Note Editor</h3>
+      <section class="notepad-editor" v-if="editorIsOpen === true">
+        <save-button></save-button>
       </section>
-      <div class="plus-icon-container" @click="addNoteHandler">
-        <add-note-button></add-note-button>
-      </div>
     </div>
   </div>
 </template>
-
 <script>
-import AddNoteButton from './components/AddNoteButton.vue';
+import AddNoteButton from "./components/AddNoteButton.vue";
+import NoteList from "./components/NoteList.vue";
+import SaveButton from './components/SaveButton.vue';
 
 export default {
-  name: 'App',
   components: {
-    AddNoteButton
+    NoteList,
+    AddNoteButton,
+    SaveButton
   },
   data() {
+    
     return {
-      notes:[
+      editorIsOpen: false,
+      notes: [
         {
-          title: "Checklist for Store",
-          type: "checklist",
-          data: [
-            "Potatoes",
-            "Eggs",
-            "Cheese",
-            "Milk"
-          ]
+          id: 1,
+          title: "1st Note",
+          body: "This is a note",
+          date: "10/17/20",
         },
         {
-          title: "Note for Thursday",
-          type: "note",
-          data: "This is a note with really good stuff!"
-        }
+          id: 2,
+          title: "2nd Note",
+          body: "This is a note",
+          date: "11/17/20",
+        },
       ],
-      isEditorEnabled: false
-    }
-    
+    };
   },
   methods: {
-      addNoteHandler() {
-        this.isEditorEnabled = !this.isEditorEnabled;
-      }
-    }
-  
-}
+    openNewEditor() {
+      this.editorIsOpen = !this.editorIsOpen;
+    },
+  },
+};
 </script>
-
 <style>
-.container {
-  position: absolute;
-  top: 30%;
-  left:50%;
-  transform: translate(-50%, -50%);
-  
+.body {
+  height: 100vh;
+  width: 100%;
+  position: relative;
 }
 .notepad-container {
-  border:1px solid black;
-  border-radius:15px;
-  height:300px;
-  overflow:hidden!important;
-}
-header {
-  border-bottom:1px solid black;
-  padding:5px;
-  margin:0;
-  background-color:#508991;
-}
-section.notepad-contents {
-  _padding:15px;
-}
-.plus-icon-container {
   position: absolute;
-  bottom: 10%;
-  right:10%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 1px solid black;
+  border-radius: 3px;
+}
+.header {
+  height: 10%;
+  border-bottom: 1px solid black;
+  background-color: blanchedalmond;
 }
 
+.notepad-content {
+  height: 90%;
+}
 </style>

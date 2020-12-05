@@ -1,43 +1,30 @@
 <template>
-  <div>
-    <b-icon
-      :icon="this.hoverHandler()"
-      @mouseover="isHovered = true"
-      @mouseleave="isHovered = false"
-      class="icon-style"
-    ></b-icon>
+  <div class="add-note-container" @click="openEditor">
+    <b-icon-plus-circle></b-icon-plus-circle>
   </div>
 </template>
 
 <script>
-import { BIcon } from "bootstrap-vue";
+import {BIconPlusCircle} from 'bootstrap-vue';
 export default {
-  name: "AddNoteButton",
+  emits: ['open-editor'],
   components: {
-    BIcon,
-  },
-  data() {
-    return {
-      isHovered: false,
-    };
+    BIconPlusCircle
   },
   methods: {
-    hoverHandler() {
-      if (this.isHovered === true) {
-        return "plus-circle-fill";
-      }
-      else if (this.isHovered === false) {
-          return "plus-circle";
-      }
+    openEditor() {
+      console.log('hello');
+      this.$emit('open-editor');
     }
-  },
-};
+  }
+}
 </script>
 <style scoped>
-    .icon-style {
-        width:50px;
-        height:50px;
-        color:#508991;
-        cursor: pointer;
-    }
+  .add-note-container {
+    position: absolute;
+    bottom:10%;
+    right:10%;
+    font-size:3rem;
+    cursor: pointer;
+  }
 </style>
