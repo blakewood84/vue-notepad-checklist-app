@@ -12,9 +12,15 @@
         ></note-list>
         <add-note-button @open-editor="openNewEditor"></add-note-button>
       </section>
+
       <section class="notepad-editor" v-if="editorIsOpen === true">
         <save-button></save-button>
       </section>
+
+      <section v-if="noteIsOpen === true">
+       <show-note @open-note="readNote"></show-note>
+      </section>
+
     </div>
   </div>
 </template>
@@ -22,17 +28,20 @@
 import AddNoteButton from "./components/AddNoteButton.vue";
 import NoteList from "./components/NoteList.vue";
 import SaveButton from './components/SaveButton.vue';
+import ShowNote from './components/ShowNote';
 
 export default {
   components: {
     NoteList,
     AddNoteButton,
-    SaveButton
+    SaveButton,
+    ShowNote
   },
   data() {
     
     return {
       editorIsOpen: false,
+      noteIsOpen: false,
       notes: [
         {
           id: 1,
@@ -52,8 +61,12 @@ export default {
   methods: {
     openNewEditor() {
       this.editorIsOpen = !this.editorIsOpen;
+      
     },
-  },
+    readNote() {
+      this.noteIsOpen = !this.noteIsOpen
+      }
+    }
 };
 </script>
 <style>
